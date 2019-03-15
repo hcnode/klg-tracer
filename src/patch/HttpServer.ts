@@ -222,4 +222,5 @@ export class KlgHttpServerPatcher extends HttpServerPatcher {
       }
     })
   }
+  reportMetrics(ctx){}
 }

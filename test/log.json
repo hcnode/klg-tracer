@@ -1,0 +1,239 @@
+{
+    "timestamp": 1552559451439,
+    "duration": 31,
+    "spans": [
+        {
+            "name": "http-server",
+            "timestamp": 1552559451440,
+            "duration": 30,
+            "context": {
+                "traceId": "1661bc06c0499e5d",
+                "spanId": "776837d640b997bb"
+            },
+            "references": [],
+            "tags": {
+                "http.method": {
+                    "value": "GET",
+                    "type": "string"
+                },
+                "http.url": {
+                    "value": "/cola",
+                    "type": "string"
+                },
+                "http.client": {
+                    "value": false,
+                    "type": "bool"
+                },
+                "http.res.status": {
+                    "value": 200,
+                    "type": "number"
+                }
+            },
+            "logs": [
+                {
+                    "fields": [
+                        {
+                            "key": "query",
+                            "value": "{}"
+                        }
+                    ],
+                    "timestamp": 1552559451468
+                },
+                {
+                    "fields": [
+                        {
+                            "key": "data",
+                            "value": "{}"
+                        }
+                    ],
+                    "timestamp": 1552559451468
+                },
+                {
+                    "fields": [
+                        {
+                            "key": "response",
+                            "value": "[{\"_id\":\"5c8a1d1b8068490c38cfa0c7\",\"name\":\"Zildjian\",\"__v\":0},{\"_id\":\"5c8a28bb7f264c31e4f11c24\",\"name\":\"Zildjian\",\"__v\":0},{\"_id\":\"5c8a28bb7f264c31e4f11c25\",\"name\":\"Zildjian\",\"__v\":0},{\"_id\":\"5c8a29a07f264c31e4f11c26\",\"name\":\"Zildjian\",\"__v\":0},{\"_id\":\"5c8a29f97f264c31e4f11c27\",\"name\":\"Zildjian\",\"__v\":0},{\"_id\":\"5c8a2a2e7f264c31e4f11c28\",\"name\":\"Zildjian\",\"__v\":0},{\"_id\":\"5c8a2d5b68a0481e686066a8\",\"name\":\"Zildjian\",\"__v\":0}]"
+                        }
+                    ],
+                    "timestamp": 1552559451470
+                }
+            ]
+        },
+        {
+            "name": "mongodb",
+            "timestamp": 1552559451449,
+            "duration": 7,
+            "context": {
+                "traceId": "1661bc06c0499e5d",
+                "parentId": "776837d640b997bb",
+                "spanId": "644fdf9a1c1ea0ce"
+            },
+            "references": [
+                {
+                    "traceId": "1661bc06c0499e5d",
+                    "spanId": "776837d640b997bb"
+                }
+            ],
+            "tags": {
+                "mongodb.method": {
+                    "value": "insert",
+                    "type": "string"
+                },
+                "mongodb.host": {
+                    "type": "string",
+                    "value": "unknown"
+                },
+                "mongodb.portPath": {
+                    "type": "string",
+                    "value": "unknown"
+                },
+                "mongodb.database": {
+                    "type": "string",
+                    "value": "test"
+                },
+                "mongodb.collection": {
+                    "type": "string",
+                    "value": "cats"
+                },
+                "error": {
+                    "type": "bool",
+                    "value": false
+                }
+            },
+            "logs": []
+        },
+        {
+            "name": "mongodb",
+            "timestamp": 1552559451449,
+            "duration": 7,
+            "context": {
+                "traceId": "1661bc06c0499e5d",
+                "parentId": "776837d640b997bb",
+                "spanId": "ff3ab00e855ca8aa"
+            },
+            "references": [
+                {
+                    "traceId": "1661bc06c0499e5d",
+                    "spanId": "776837d640b997bb"
+                }
+            ],
+            "tags": {
+                "mongodb.method": {
+                    "value": "insertMany",
+                    "type": "string"
+                },
+                "mongodb.host": {
+                    "type": "string",
+                    "value": "unknown"
+                },
+                "mongodb.portPath": {
+                    "type": "string",
+                    "value": "unknown"
+                },
+                "mongodb.database": {
+                    "type": "string",
+                    "value": "test"
+                },
+                "mongodb.collection": {
+                    "type": "string",
+                    "value": "cats"
+                },
+                "error": {
+                    "type": "bool",
+                    "value": false
+                }
+            },
+            "logs": []
+        },
+        {
+            "name": "mongodb",
+            "timestamp": 1552559451452,
+            "duration": 4,
+            "context": {
+                "traceId": "1661bc06c0499e5d",
+                "parentId": "776837d640b997bb",
+                "spanId": "cabe80678ce19cf3"
+            },
+            "references": [
+                {
+                    "traceId": "1661bc06c0499e5d",
+                    "spanId": "776837d640b997bb"
+                }
+            ],
+            "tags": {
+                "mongodb.method": {
+                    "value": "execute",
+                    "type": "string"
+                },
+                "mongodb.host": {
+                    "type": "string",
+                    "value": "unknown"
+                },
+                "mongodb.portPath": {
+                    "type": "string",
+                    "value": "unknown"
+                },
+                "mongodb.database": {
+                    "type": "string",
+                    "value": "unknown"
+                },
+                "mongodb.collection": {
+                    "type": "string",
+                    "value": "unknown"
+                },
+                "error": {
+                    "type": "bool",
+                    "value": false
+                }
+            },
+            "logs": []
+        },
+        {
+            "name": "mongodb",
+            "timestamp": 1552559451461,
+            "duration": 3,
+            "context": {
+                "traceId": "1661bc06c0499e5d",
+                "parentId": "644fdf9a1c1ea0ce",
+                "spanId": "d3c17b2d967d083a"
+            },
+            "references": [
+                {
+                    "traceId": "1661bc06c0499e5d",
+                    "parentId": "776837d640b997bb",
+                    "spanId": "644fdf9a1c1ea0ce"
+                }
+            ],
+            "tags": {
+                "mongodb.method": {
+                    "value": "toArray",
+                    "type": "string"
+                },
+                "mongodb.host": {
+                    "type": "string",
+                    "value": "GIH-D-15383"
+                },
+                "mongodb.portPath": {
+                    "type": "string",
+                    "value": "27017"
+                },
+                "mongodb.database": {
+                    "type": "string",
+                    "value": "unknown"
+                },
+                "mongodb.collection": {
+                    "type": "string",
+                    "value": "cats"
+                },
+                "error": {
+                    "type": "bool",
+                    "value": false
+                }
+            },
+            "logs": []
+        }
+    ],
+    "status": 1,
+    "traceId": "1661bc06c0499e5d",
+    "name": "HTTP-GET:/cola"
+}

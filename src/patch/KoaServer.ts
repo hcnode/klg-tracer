@@ -1,55 +1,55 @@
 import * as http from 'http'
-import {safeParse, isFunction} from '../util/Utils'
+import { safeParse, isFunction } from '../util/Utils'
 import * as bodyParser from 'koa-bodyparser'
-import {HttpServerPatcher} from 'pandora-hook'
-import {HttpServerHookOptions} from '../domain'
+import { HttpServerPatcher } from 'pandora-hook'
+import { HttpServerHookOptions } from '../domain'
 
 const debug = require('debug')('Klg:Tracer:Hook:KoaServerPatcher')
 
 export class KoaServerPatcher extends HttpServerPatcher {
 
-  constructor (options: HttpServerHookOptions) {
+  constructor(options: HttpServerHookOptions) {
     super(options)
     if (options && options.interceptor) {
       if (!isFunction(options.interceptor)) throw new Error('KoaServer interceptor must be a function')
     }
   }
 
-  getModuleName (): string {
+  getModuleName(): string {
     return 'koa'
   }
 
-  buildTags (ctx) {
+  buildTags(ctx) {
     const tags = super.buildTags(ctx.req)
     tags['http.res.status'] = {
       value: ctx.status,
-      type: typeof(ctx.status)
+      type: typeof (ctx.status)
     }
     return tags
   }
 
-  recordQueryLog (ctx, tracer, span) {
+  recordQueryLog(ctx, tracer, span) {
     const query = ctx.request.query
     if (query) {
-      span.log({query})
+      span.log({ query })
     }
   }
 
-  recordBodyLog (ctx, tracer, span) {
+  recordBodyLog(ctx, tracer, span) {
     const data = ctx.request.body
     if (data) {
-      span.log({data})
+      span.log({ data })
     }
   }
 
-  recordResponseLog (ctx, tracer, span) {
+  recordResponseLog(ctx, tracer, span) {
     const response = safeParse(ctx.body)
     if (response) {
-      span.log({response})
+      span.log({ response })
     }
   }
 
-  recordTagsAndLog (ctx, tracer, span) {
+  recordTagsAndLog(ctx, tracer, span) {
     const tags = this.buildTags(ctx)
     span.addTags(tags)
     tracer.named(`HTTP-${tags['http.method'].value}:${tags['http.url'].value}`)
@@ -59,51 +59,48 @@ export class KoaServerPatcher extends HttpServerPatcher {
     this.recordResponseLog(ctx, tracer, span)
   }
 
-  createSpan (tracer) {
+  createSpan(tracer) {
     const span = tracer.startSpan('http-server', {
       traceId: tracer.traceId
     })
     return span
   }
 
-  shimmer () {
+  shimmer() {
     const self = this
     const traceManager = this.getTraceManager()
     const shimmer = this.getShimmer()
     const options = this.options
-    this.hook('^2.x', (loadModule, version) => {
-      const Koa = loadModule('./lib/application.js')
-      debug(`catch koa ${version} require `)
 
-      shimmer.wrap(Koa.prototype, 'use', function (use) {
-        return function wrappedUse (this, args) {
-          debug(`koa use arguments `, arguments)
-          if (this.middleware.length === 0) {
-            this.middleware.push(bodyParser())
-            this.middleware.push(traceManager.bind(async function (ctx, next) {
-              if (options.requestFilter && options.requestFilter(ctx)) return await next()
-              traceManager.bindEmitter(ctx.req)
-              traceManager.bindEmitter(ctx.res)
+    shimmer.wrap(options.Koa.prototype, 'use', function (use) {
+      return function wrappedUse(this, args) {
+        debug(`koa use arguments `, arguments)
+        if (this.middleware.length === 0) {
+          this.middleware.push(bodyParser())
+          this.middleware.push(traceManager.bind(async function (ctx, next) {
+            if (options.requestFilter && options.requestFilter(ctx)) return await next()
+            traceManager.bindEmitter(ctx.req)
+            traceManager.bindEmitter(ctx.res)
 
-              const tracer = self.createTracer(ctx.request)
-              const span = self.createSpan(tracer)
-              tracer.setCurrentSpan(span)
+            const tracer = self.createTracer(ctx.request)
+            const span = self.createSpan(tracer)
+            tracer.setCurrentSpan(span)
 
-              if (options.interceptor) options.interceptor(ctx, tracer, span)
+            if (options.interceptor) options.interceptor(ctx, tracer, span)
 
-              await next()
+            await next()
 
-              self.recordTagsAndLog(ctx, tracer, span)
-              span.finish()
-              tracer.finish()
-            }))
-            debug(`koa hook complete `)
-          }
-
-          return use.apply(this, arguments)
+            self.recordTagsAndLog(ctx, tracer, span)
+            span.finish()
+            tracer.finish()
+          }))
+          debug(`koa hook complete `)
         }
-      })
-      return
+
+        return use.apply(this, arguments)
+      }
     })
   }
+
+  reportMetrics(ctx) { }
 }

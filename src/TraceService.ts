@@ -8,6 +8,7 @@ import {EnvironmentUtil} from 'pandora-env'
 import {DefaultEnvironment} from './mock/DefaultEnvironment'
 import {logger} from './util/Logger'
 import {MongoReport, MongoReportOption} from './report/MongoReport'
+import Manager from './models/Manager';
 
 const debug = require('debug')('Klg:Tracer:TraceService')
 
@@ -57,13 +58,15 @@ export class TraceService {
   }
 
   registerMongoReporter (options: MongoReportOption) {
-    const mongo = new MongoReport(options)
+    Manager.url = options.mongoUrl;
+    // const mongo = new MongoReport(options)
     process.on('PANDORA_PROCESS_MESSAGE_TRACE' as any, (tracer: any) => {
-      mongo.report(tracer).then(result => {
-        // empty
-      }).catch(err => {
-        logger.err('save mongo report err', err)
-      })
+      
+      // mongo.report(tracer).then(result => {
+      //   // empty
+      // }).catch(err => {
+      //   logger.err('save mongo report err', err)
+      // })
     })
   }
 }
