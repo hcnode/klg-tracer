@@ -58,9 +58,10 @@ export class TraceService {
   }
 
   registerMongoReporter (options: MongoReportOption) {
-    Manager.url = options.mongoUrl;
     // const mongo = new MongoReport(options)
-    process.on('PANDORA_PROCESS_MESSAGE_TRACE' as any, (tracer: any) => {
+    var manager = new Manager(options.mongoUrl);
+    process.on('PANDORA_PROCESS_MESSAGE_TRACE' as any, async (tracer: any) => {
+      var result = await manager.insert(tracer);
       
       // mongo.report(tracer).then(result => {
       //   // empty

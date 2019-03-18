@@ -47,7 +47,9 @@ class NewMongodbShimmer extends MongodbShimmer{
       promise: invokeInfo.promise,
       callbackIdx: invokeInfo.callbackIdx
     };
-    tags['cmd'] = ctx.cmd
+    tags['mongodb.cmd'] = {
+      value : ctx.cmd
+    }
     return tags;
   }
 
