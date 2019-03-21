@@ -28,7 +28,7 @@ const Cat = mongoose.model('Cat', { name: String });
 const app = new Koa();
 app.use(async ctx => {
   const kitty = new Cat({ name: 'harry' });
-//   await kitty.save().then();
+  await kitty.save().then();
   var cat = await Cat.find({name : 'harry'}).select('name').then()
   ctx.body = cat;
 });

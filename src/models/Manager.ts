@@ -12,11 +12,12 @@ export default class Manager {
         }
     }
     connected = false
+    connectedInfo = null
     url = null
     Trace = mongoose.model('trace', traceSchema)
-    connect() {
+    async connect() {
         if (this.url) {
-            mongoose.createConnection(this.url)
+            this.connectedInfo = mongoose.connect(this.url, { useNewUrlParser: true });
             this.connected = true;
         }
     }
@@ -46,5 +47,8 @@ export default class Manager {
         var result = await trace.save();
         return result;
     }
-
+    async query(limit, skip, query){
+        var result = await this.Trace.find(query).limit(limit).skip(skip).lean();
+        return result;
+    }
 }
