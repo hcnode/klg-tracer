@@ -44,6 +44,7 @@
     "node": ">=8.9.0"
   },
   "dependencies": {
+    "@koa/cors": "2",
     "klg-logger": "^1.0.4",
     "klg-tracer-model": "^2.0.0",
     "pandora-hook": "^1.10.6",

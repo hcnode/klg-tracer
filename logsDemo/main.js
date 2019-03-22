@@ -1,9 +1,9 @@
 var columnDefs = [
     // group cell renderer needed for expand / collapse icons
     {field: 'name', cellRenderer: 'agGroupCellRenderer'},
-    {field: 'account'},
-    {field: 'calls'},
-    {field: 'minutes', valueFormatter: "x.toLocaleString() + 'm'"}
+    {field: 'status'},
+    {field: 'duration'},
+    {field: 'time', valueFormatter: "new Date(x)"}
 ];
 
 var gridOptions = {
@@ -12,28 +12,27 @@ var gridOptions = {
     detailCellRendererParams: {
         detailGridOptions: {
             columnDefs: [
-                {field: 'callId'},
-                {field: 'direction'},
-                {field: 'number'},
-                {field: 'duration', valueFormatter: "x.toLocaleString() + 's'"},
-                {field: 'switchCode'}
+                {field: 'name'},
+                {field: 'time', valueFormatter: "new Date(x)"},
+                {field: 'duration'},
+                {field: 'tags'}
             ],
             onFirstDataRendered(params) {
                 params.api.sizeColumnsToFit();
             }
         },
         getDetailRowData: function (params) {
-            params.successCallback(params.data.callRecords);
+            params.successCallback(params.data.spans);
         }
     },
     onGridReady: function (params) {
         // arbitrarily expand a row for presentational purposes
-        setTimeout(function () {
-            var rowCount = 0;
-            params.api.forEachNode(function (node) {
-                node.setExpanded(rowCount++ === 1);
-            });
-        }, 500);
+        // setTimeout(function () {
+        //     var rowCount = 0;
+        //     params.api.forEachNode(function (node) {
+        //         node.setExpanded(rowCount++ === 1);
+        //     });
+        // }, 500);
     },
     onFirstDataRendered(params) {
         params.api.sizeColumnsToFit();
@@ -45,7 +44,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var gridDiv = document.querySelector('#myGrid');
     new agGrid.Grid(gridDiv, gridOptions);
 
-    agGrid.simpleHttpRequest({url: 'https://raw.githubusercontent.com/ag-grid/ag-grid-docs/latest/src/javascript-grid-master-detail/simple/data/data.json'}).then(function (data) {
+    agGrid.simpleHttpRequest({url: 'http://localhost:3001/'}).then(function (data) {
         gridOptions.api.setRowData(data);
     });
 });
