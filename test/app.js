@@ -4,6 +4,7 @@ new TraceService().registerHooks({
   httpServer: {
     // enabled: true,
     useKoa: true, // 在 koa 设置钩子，比直接在 http 层设置钩子稳定
+    Koa
     // 过滤器，只记录特定接口, 注意 return true 的才会被过滤
     // requestFilter: function (req) {
     //   return true;

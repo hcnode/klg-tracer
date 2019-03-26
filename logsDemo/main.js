@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var gridDiv = document.querySelector('#myGrid');
     new agGrid.Grid(gridDiv, gridOptions);
 
-    agGrid.simpleHttpRequest({url: 'http://localhost:3001/'}).then(function (data) {
+    agGrid.simpleHttpRequest({url: 'http://localhost:3001/data'}).then(function (data) {
         gridOptions.api.setRowData(data);
     });
 });
